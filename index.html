@@ -1,0 +1,1651 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Playwrite+MX+Guides&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins"
+      rel="stylesheet"
+    />
+    <title>Questionnaire with Sessions</title>
+    <style>
+      body {
+        margin: 40px auto;
+        padding: 0 16px;
+        font-family: "Roboto", sans-serif;
+      }
+      .question-head {
+        font-size: 22px;
+        font-weight: bold;
+        line-height: 1;
+        text-align: center;
+      }
+      .question-head2 {
+        font-size: 22px;
+        font-weight: bold;
+        text-align: center;
+      }
+      .question-content {
+        font-size: 16px;
+        font-weight: 400;
+        color: #787878;
+        width: 100%;
+        line-height: 1.5; /* Corrected */
+        text-align: center;
+        word-wrap: break-word; /* Added */
+        overflow-wrap: break-word; /* For better compatibility */
+        hyphens: auto; /* Optional: allows breaking long words with hyphens */
+      }
+
+      .quiz-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0 auto;
+        width: 70%;
+        justify-content: center;
+      }
+      .wrap-cont {
+        display: flex;
+        flex-direction: column;
+        width: 680px;
+      }
+      .progress-wrapper {
+        position: relative;
+        height: 30px;
+        width: 100%;
+        margin-bottom: 20px;
+      }
+      .radio {
+        height: 13px;
+        width: 13px;
+        border-radius: 40px;
+        border: 1px solid #000;
+      }
+      .progress-line-bg,
+      .progress-line-fill {
+        position: absolute;
+        top: 18%;
+        left: 0;
+        right: 0;
+        height: 2px;
+        border-radius: 3px;
+        transform: translateY(-50%);
+      }
+      .progress-line-bg {
+        background: #ccc;
+      }
+      .progress-line-fill {
+        background: rgb(0, 128, 45);
+        width: 0%;
+        transition: width 0.3s ease;
+        z-index: 1;
+      }
+      .dots {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        z-index: 2;
+      }
+      .dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: #ccc;
+        border: 2px solid #ccc;
+        transition: background-color 0.3s, border-color 0.3s;
+      }
+      .dot.active {
+        background: rgb(0, 128, 45);
+        border-color: rgb(0, 128, 45);
+      }
+      .question {
+        display: none;
+        opacity: 0;
+        transform: translateX(80px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+      }
+
+      .question.active {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .options {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 20px;
+        width: 360px;
+      }
+      .options2 {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+      }
+      .options3 {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 20px;
+        width: 70%;
+        flex-wrap: wrap !important;
+      }
+      .option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 20px;
+        font-size: 14px;
+        font-weight: 500;
+        border: 1px solid #1a1919;
+        border-radius: 17px;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .option:hover,
+      .option.selected {
+        border-color: rgb(0, 128, 45);
+        box-shadow: 0px 2px 17px -2px rgba(0, 0, 0, 0.21);
+      }
+      .option:hover .radio {
+        border: 4px solid #000;
+        height: 8px;
+        width: 7px;
+      }
+      .option.selected .radio {
+        border: 4px solid #000;
+        height: 8px;
+        width: 7px;
+      }
+      .buttons {
+        display: flex;
+        margin: auto;
+        justify-content: space-between;
+        margin-top: 20px;
+        width: 60%;
+      }
+
+      .secondOption:hover {
+        box-shadow: 0px 2px 17px -2px rgba(0, 0, 0, 0);
+        transform: translateY(-10px); /* Looks like margin-top increased */
+      }
+      .option.secondOption.selected {
+        box-shadow: 0px 2px 17px -2px rgba(0, 0, 0, 0) !important;
+        transform: translateY(-7px);
+      }
+      .option.secondOption.selected .img-cont {
+        box-shadow: 0px 2px 17px -2px rgba(0, 0, 0, 0.21);
+        transform: translateY(-2px);
+      }
+      .secondOption2 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        border-radius: 5px;
+        padding: 0;
+        position: relative;
+        transition: transform 0.3s ease;
+      }
+      .secondOption2:hover .option-text {
+        border-radius: 2px;
+      }
+
+      .secondOption2:hover {
+        transform: translateY(-10px); /* Looks like margin-top increased */
+      }
+      .secondOption {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        border: none;
+        border-radius: 5px;
+        padding: 12px;
+        position: relative;
+        transition: transform 0.3s ease;
+      }
+
+      .secondOption img {
+        width: 65px;
+        height: 65px;
+        border-radius: 10px;
+      }
+
+      .option-text {
+        text-align: center;
+        font-size: 13px;
+        font-weight: normal;
+      }
+      .opt {
+        transition: 250ms;
+      }
+      .opt:hover {
+        transform: translateY(-5px) !important;
+      }
+      .option-text {
+        margin-top: 5px;
+      }
+      .secondOption:hover .option-text {
+        border-radius: 2px;
+      }
+      .secondOption:hover .img-cont {
+        box-shadow: 0px 2px 17px -2px rgba(0, 0, 0, 0.21);
+      }
+      .button {
+        background-color: white !important;
+        border: none;
+        color: black;
+        padding: 10px 18px;
+        font-size: 16px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 700;
+        font-size: 13px;
+        display: inline-block;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .button:disabled {
+        color: #787878 !important;
+        cursor: not-allowed;
+      }
+      #questions-wrapper {
+        overflow: hidden !important;
+        width: 100%;
+      }
+      .removed {
+        display: none;
+      }
+      .step-counter {
+        display: flex;
+        align-self: flex-end;
+        margin-bottom: 10px;
+        letter-spacing: 2px;
+        font-size: 10px;
+        font-weight: bold;
+      }
+      .continue {
+        background-color: rgb(0, 128, 45);
+        color: #fff;
+        cursor: pointer;
+        padding: 15px 30px;
+        font-size: 15px;
+        text-transform: uppercase;
+        font-weight: bold;
+        border: none;
+        border-radius: 30px;
+      }
+      .continue:hover {
+        background-color: transparent;
+        border: 1px solid rgb(0, 128, 45);
+        color: rgb(0, 128, 45);
+      }
+      .back {
+        background-color: white !important;
+        border: none;
+        color: black;
+        padding: 10px 18px;
+        font-size: 16px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 700;
+        font-size: 13px;
+        display: inline-block;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .disclaimer-text {
+        font-weight: bold;
+        font-size: 12px;
+        width: 100%;
+        font-family: "Roboto", sans-serif;
+        margin-top: 15px;
+      }
+      .img-cont {
+        background-color: #f0f1f1;
+        border-radius: 10px;
+        padding: 15px 17px;
+        img {
+          width: 45px;
+          height: 45px;
+        }
+      }
+      .message-screen {
+        display: flex;
+        margin-top: 60px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        font-size: 1.2rem;
+        width: 350px;
+        position: relative;
+        background: url("https://i.postimg.cc/K8Rqd2vD/Screenshot-2025-06-09-151734.png");
+        background-position: center;
+        background-size: cover;
+        height: 350px;
+        border-radius: 10px;
+        img {
+          width: 100%;
+          height: 370px;
+        }
+
+        .concern-icon {
+          width: 40px !important;
+          height: 40px !important;
+        }
+        .abtText {
+          font-weight: normal;
+          color: white;
+          font-size: 14px;
+          span {
+            font-size: 14px;
+            font-weight: 900;
+          }
+        }
+        .msg {
+          height: 370px;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          flex-direction: column;
+          background-color: #00000048;
+          border-radius: 10px;
+        }
+      }
+      .option-cont {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        width: 100%;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .abt {
+        background-color: #00000094;
+        padding: 4px 13px;
+        font-weight: bold;
+        border-radius: 10px;
+        color: white;
+      }
+
+      .message-buttons {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+      textarea {
+        width: 400px;
+        height: 80px;
+        padding: 10px;
+        resize: none !important;
+        border: 1px solid black;
+        border-radius: 10px;
+        margin-top: 20px;
+      }
+      input {
+        padding: 20px;
+        font-size: 14px;
+        font-weight: 500;
+        border: 1px solid #1a1919;
+        border-radius: 17px;
+        width: 400px;
+      }
+      .button-group {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 20px;
+        width: 60% !important;
+      }
+      ::placeholder {
+        font-weight: bold;
+        font-size: 14px;
+        font-family: "Roboto", sans-serif;
+      }
+      .result-head {
+        font-size: 45px;
+        color: rgb(0, 128, 45);
+        font-weight: bold;
+        i {
+          font-weight: normal;
+        }
+      }
+      .result-head {
+        font-size: 55px;
+        color: rgb(0, 128, 45);
+        font-weight: bold;
+        i {
+          font-weight: normal;
+        }
+      }
+      .recomend {
+        font-size: 30px;
+        font-weight: bold;
+        margin-top: 10px;
+      }
+      .ans {
+        border: 1px solid gray;
+        padding: 30px;
+        border-radius: 20px;
+      }
+      .ans-head {
+        font-weight: bold;
+        margin-bottom: 10px;
+        font-size: 16px;
+        font-family: "Roboto", sans-serif;
+      }
+      .mg-cont {
+        margin-top: 20px;
+      }
+      .improves {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+      .improve-cont {
+        padding: 7px 20px;
+        font-family: "Roboto", sans-serif;
+        background-color: rgb(241 241 241);
+        border-radius: 30px;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        justify-content: center;
+      }
+      .prod-cont {
+        display: flex;
+        gap: 40px;
+        margin-top: 30px;
+      }
+      .cont-1 {
+        width: 35%;
+        font-size: 18px;
+      }
+      .cont-2 {
+        display: flex;
+        gap: 10px;
+        img {
+          width: 170px;
+        }
+        .prod-name {
+          font-size: 17px;
+          font-family: "Roboto", sans-serif;
+        }
+        .prod-name2 {
+          font-size: 17px;
+          display: none;
+          font-family: "Roboto", sans-serif;
+        }
+        .line-under {
+          border: 1px solid #00000037;
+          margin: 10px 0;
+        }
+        .price {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          justify-content: center;
+          .old-price {
+            font-size: 16px;
+            text-decoration: line-through;
+            font-family: "Roboto", sans-serif;
+          }
+          .New-price {
+            font-family: "Roboto", sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+          }
+          .Precent {
+            font-family: "Roboto", sans-serif;
+            color: rgb(0, 128, 45);
+            font-size: 16px;
+            font-weight: bold;
+          }
+        }
+        .done-btn {
+          cursor: pointer;
+          margin-top: 15px;
+          padding: 7px 80px;
+          border-radius: 40px;
+          font-weight: bold;
+          font-size: 18px;
+          text-transform: uppercase;
+          background-color: rgb(0, 128, 45);
+          color: white;
+          border: none !important;
+          font-family: "Roboto", sans-serif;
+          transition: 250ms;
+          span {
+            font-size: 12px;
+            font-family: "Roboto", sans-serif;
+            color: rgba(255, 255, 255, 0.564);
+            font-weight: normal;
+          }
+        }
+      }
+      .done-btn:hover {
+        background-color: rgb(2, 92, 34);
+      }
+      .step-head {
+        width: 80%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+      .none-cont {
+        font-family: "Roboto", sans-serif;
+        font-size: 13px;
+      }
+      #recommendation-output {
+        width: 100%;
+      }
+      .load-body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .loading-head {
+        margin-top: 20px;
+        font-weight: bold;
+        width: 100%;
+        font-family: "Roboto", sans-serif;
+        font-size: 18px;
+      }
+      .loader1 {
+        width: 58px;
+        height: 58px;
+        display: block;
+        margin: 15px auto;
+        position: relative;
+        color: #ffe6e5;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+      }
+      .loader1::after,
+      .loader1::before {
+        content: "";
+        box-sizing: border-box;
+        position: absolute;
+        width: 34px;
+        height: 34px;
+        top: 50%;
+        left: 50%;
+        transform: scale(0.5) translate(0, 0);
+        background-color: rgb(0, 187, 65);
+        border-radius: 50%;
+        animation: animloader 1s infinite ease-in-out;
+      }
+      .loader1::before {
+        background-color: rgb(0, 128, 45);
+        transform: scale(0.5) translate(-48px, -48px);
+      }
+      .load-cont {
+        margin: 0 auto;
+        width: 500px;
+        text-align: center;
+        font-family: "Roboto", sans-serif;
+        span {
+          font-weight: bold;
+        }
+      }
+      .card2 {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 30px;
+      }
+      .carousel-item2 {
+        background-color: #fdcecd24;
+        padding: 15px;
+        width: 300px;
+        border-radius: 20px;
+      }
+      .carousel-images2 {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        .carousel-image-item2 {
+          flex: 1;
+          img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 20px;
+          }
+        }
+      }
+      .visible {
+        font-family: "Roboto", sans-serif;
+        text-transform: uppercase;
+        font-weight: light;
+        font-size: 13px;
+        margin-top: 15px;
+        letter-spacing: 1px;
+      }
+      .days2 {
+        font-family: "Roboto", sans-serif;
+        font-weight: light;
+        font-size: 13px;
+        margin-top: 5px;
+      }
+      .carousel-head {
+        font-family: "TWKLausanne", sans-serif !important;
+        font-size: 17px;
+        margin: 10px 0 15px 0;
+      }
+      .carousel-contents {
+        font-family: "TWKLausanne", sans-serif !important;
+        font-size: 14px;
+        margin: 15px 0;
+      }
+      .carousel-name {
+        font-family: "TWKLausanne", sans-serif !important;
+        font-size: 13px;
+      }
+      .co-head {
+        font-size: 20px;
+        font-family: "Roboto", sans-serif;
+        margin-bottom: 10px;
+        span {
+          font-weight: bold;
+        }
+      }
+      @keyframes rotation {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes animloader {
+        50% {
+          transform: scale(1) translate(-50%, -50%);
+        }
+      }
+
+      @media screen and (max-width: 980px) {
+        .done-btn {
+          font-size: 12px !important;
+          padding: 15px 40px !important;
+        }
+        span {
+          font-size: 10px;
+        }
+      }
+      @media screen and (max-width: 720px) {
+        .result-head {
+          font-size: 40px;
+        }
+        .prod-cont {
+          flex-direction: column-reverse;
+        }
+        .cont-1 {
+          width: 100%;
+        }
+        .cont-2 {
+          flex-direction: column;
+        }
+        .cont-img {
+          display: flex;
+          gap: 10px;
+        }
+        .prod-name {
+          display: none;
+        }
+        .prod-name2 {
+          font-size: 18px;
+          display: block !important;
+          margin-top: 10px;
+        }
+        .cont-img {
+          display: flex;
+        }
+        .done-btn {
+          width: 100%;
+        }
+        .recomend {
+          font-size: 20px;
+        }
+        .quiz-container {
+          width: 100% !important;
+        }
+        .options {
+          width: 40%;
+        }
+      }
+      @media screen and (max-width: 900px) {
+        .wrap-cont {
+          width: 100%;
+        }
+        @media (max-width: 600px) {
+          .loading-head {
+            width: 100% !important;
+            text-align: center;
+          }
+          .load-cont {
+            width: 100%;
+          }
+          .question-head {
+            font-size: 20px;
+            width: 90%;
+            word-wrap: break-word;
+            font-size: 14px;
+            overflow-wrap: break-word;
+          }
+          .question-head2 {
+            font-size: 20px;
+            width: 90%;
+            word-wrap: break-word;
+            font-size: 14px;
+            overflow-wrap: break-word;
+          }
+          .question-content {
+            width: 90% !important;
+            word-wrap: break-word;
+            font-size: 14px;
+            overflow-wrap: break-word;
+          }
+          .option-cont {
+            width: 90%;
+          }
+          .options3 {
+            width: 100% !important;
+          }
+        }
+
+        .options {
+          width: 70%;
+        }
+      }
+      @media screen and (max-width: 600px) {
+        textarea {
+          width: 90%;
+        }
+        .abtText {
+          font-weight: normal;
+          color: white;
+          font-size: 12px;
+          span {
+            font-size: 12px;
+            font-weight: 900;
+          }
+        }
+      }
+      @media screen and (max-width: 500px) {
+        .options {
+          width: 80%;
+        }
+        input {
+          width: 80% !important;
+        }
+        .button {
+          font-size: 11px;
+        }
+        .back {
+          font-size: 11px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="quiz-container">
+      <div class="step-head">
+        <div class="wrap-cont">
+          <div class="step-counter" id="step-counter">1/4</div>
+          <div class="progress-wrapper">
+            <div class="progress-line-bg"></div>
+            <div class="progress-line-fill" id="progress-line-fill"></div>
+            <div class="dots">
+              <div class="dot" id="dot-1"></div>
+              <div class="dot" id="dot-2"></div>
+              <div class="dot" id="dot-3"></div>
+              <div class="dot" id="dot-4"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="questions-wrapper">
+        <!-- Q1 -->
+        <div class="question active" data-index="1">
+          <p class="question-head">What Position do you play</p>
+          <p class="question-content">
+            Tell us your main role on the field or court every position counts!
+          </p>
+          <div class="options2">
+            <div class="opt">
+              <div class="option secondOption">
+                <div class="img-cont">
+                  <img
+                    src="https://img.icons8.com/external-icongeek26-outline-icongeek26/64/external-goal-post-football-icongeek26-outline-icongeek26.png"
+                    alt=""
+                  />
+                </div>
+                <div class="option-text">GoalKeeper</div>
+              </div>
+            </div>
+            <div class="opt">
+              <div class="option secondOption">
+                <div class="img-cont">
+                  <img
+                    src="https://img.icons8.com/comic/100/football.png"
+                    alt=""
+                  />
+                </div>
+                <div class="option-text">Defender</div>
+              </div>
+            </div>
+            <div class="opt">
+              <div class="option secondOption">
+                <div class="img-cont">
+                  <img
+                    src="https://img.icons8.com/external-kosonicon-outline-kosonicon/64/external-soccer-field-soccer-and-football-match-kosonicon-outline-kosonicon.png"
+                    alt=""
+                  />
+                </div>
+                <div class="option-text">MildFielder</div>
+              </div>
+            </div>
+            <div class="opt">
+              <div class="option secondOption">
+                <div class="img-cont">
+                  <img
+                    src="https://img.icons8.com/carbon-copy/100/football2.png"
+                    alt=""
+                  />
+                </div>
+                <div class="option-text">Striker</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Q2 -->
+        <div class="question" data-index="2">
+          <p class="question-head">What is your best strength</p>
+          <p class="question-content">
+            Share the skill that sets you apart on the field!
+          </p>
+          <div class="options">
+            <div class="option">
+              <div class="radio"></div>
+              <div>Shot Power</div>
+            </div>
+            <div class="option">
+              <div class="radio"></div>
+              <div>Speed</div>
+            </div>
+            <div class="option">
+              <div class="radio"></div>
+              <div>Stamina</div>
+            </div>
+            <div class="option">
+              <div class="radio"></div>
+              <div>Skill</div>
+            </div>
+          </div>
+        </div>
+        <!-- Q3 -->
+        <div class="question" data-index="3">
+          <p class="question-head">What would you like to improve</p>
+          <p class="question-content">
+            Let us know the area you’re working to get better at!
+          </p>
+          <div class="options2">
+            <div class="opt">
+              <div class="option secondOption">
+                <div class="img-cont">
+                  <img
+                    src="https://img.icons8.com/pulsar-line/48/football-kick.png"
+                    alt=""
+                  />
+                </div>
+                <div class="option-text">Shot Power</div>
+              </div>
+            </div>
+            <div class="opt">
+              <div class="option secondOption">
+                <div class="img-cont">
+                  <img
+                    src="https://img.icons8.com/ios/50/exercise.png"
+                    alt=""
+                  />
+                </div>
+                <div class="option-text">Speed</div>
+              </div>
+            </div>
+            <div class="opt">
+              <div class="option secondOption">
+                <div class="img-cont">
+                  <img
+                    src="https://img.icons8.com/ios/50/deadlift.png"
+                    alt=""
+                  />
+                </div>
+                <div class="option-text">Stamina</div>
+              </div>
+            </div>
+            <div class="opt">
+              <div class="option secondOption">
+                <div class="img-cont">
+                  <img
+                    src="https://img.icons8.com/external-wanicon-lineal-wanicon/64/external-soccer-boot-football-and-soccer-wanicon-lineal-wanicon.png"
+                    alt=""
+                  />
+                </div>
+                <div class="option-text">Skill</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Q4: Message -->
+        <div class="question" data-index="4">
+          <div class="message-screen">
+            <div class="msg">
+              <div class="abt">About FutBolMax</div>
+              <div class="abtText">
+                FutBolMax has helped over <span>300,000</span> people transform
+                their skill
+              </div>
+            </div>
+          </div>
+          <div class="message-buttons">
+            <button class="continue">Continue</button>
+            <button class="back">
+              <i class="fa-solid fa-arrow-left"></i> Back
+            </button>
+          </div>
+        </div>
+        <!-- Q5 -->
+        <div class="question" data-index="5">
+          <p class="question-head">What is your current playing level?</p>
+          <p class="question-content">
+            Select the level that best matches your current experience.
+          </p>
+          <div class="options">
+            <div class="option">
+              <div class="radio"></div>
+              <div>Amateur level</div>
+            </div>
+            <div class="option">
+              <div class="radio"></div>
+              <div>Semi-pro</div>
+            </div>
+            <div class="option">
+              <div class="radio"></div>
+              <div>Professional</div>
+            </div>
+          </div>
+        </div>
+        <!-- Q6 -->
+        <div class="question" data-index="6">
+          <p class="question-head">How many times a week do you train?</p>
+          <p class="question-content">
+            Let us know how often you train for football each week every session
+            counts!
+          </p>
+          <div class="options">
+            <div class="option">
+              <div class="radio"></div>
+              <div>1-2 times Daily</div>
+            </div>
+            <div class="option">
+              <div class="radio"></div>
+              <div>3-4 times Daily</div>
+            </div>
+            <div class="option">
+              <div class="radio"></div>
+              <div>5-6 times Daily</div>
+            </div>
+          </div>
+        </div>
+        <!-- Q7 -->
+        <div class="question" data-index="7">
+          <p class="question-head2">What is your main goal in football?</p>
+          <p class="question-content">
+            Tell us what you're aiming to achieve in your football journey.
+          </p>
+          <div class="options">
+            <div class="option">
+              <div class="radio"></div>
+              <div>Get a scholarship</div>
+            </div>
+            <div class="option">
+              <div class="radio"></div>
+              <div>Go-Pro</div>
+            </div>
+            <div class="option">
+              <div class="radio"></div>
+              <div>Improve Fitness</div>
+            </div>
+            <div class="option">
+              <div class="radio"></div>
+              <div>Play For Fun</div>
+            </div>
+          </div>
+        </div>
+        <!-- Q8: Message -->
+        <div class="question" data-index="8">
+          <div class="message-screen">
+            <div class="msg">
+              <div class="abt">About FutBolMax</div>
+              <div class="abtText">
+                <span>Tre it Risk-Free</span><br />
+                <span>30 Days</span> Money Back Guarantee<br />
+                & Free Return
+              </div>
+            </div>
+          </div>
+          <div class="message-buttons">
+            <button class="continue">Continue</button>
+            <button class="back">
+              <i class="fa-solid fa-arrow-left"></i> Back
+            </button>
+          </div>
+        </div>
+        <!-- Q9 -->
+        <div class="question" data-index="9">
+          <p class="question-head2">How old are you?</p>
+          <p class="question-content">
+            This helps us better personalize your routine. We'll keep this
+            information private.
+          </p>
+          <div class="options">
+            <div class="option">
+              <div class="radio"></div>
+              <div>Under 14</div>
+            </div>
+            <div class="option">
+              <div class="radio"></div>
+              <div>14-17</div>
+            </div>
+            <div class="option">
+              <div class="radio"></div>
+              <div>18-21</div>
+            </div>
+            <div class="option">
+              <div class="radio"></div>
+              <div>22+</div>
+            </div>
+          </div>
+        </div>
+        <form id="myForm">
+          <!-- Q10 -->
+          <div class="question" data-index="10">
+            <p class="question-head">Where can we send your results?</p>
+            <p class="question-content">
+              Enter your name and email to receive your personalized routine.
+            </p>
+            <input
+              type="text"
+              id="name"
+              style="margin-top: 20px"
+              placeholder="First Name"
+              name="your-name"
+              required
+            /><br />
+            <input
+              type="email"
+              id="email"
+              placeholder="Email Address"
+              email="your-email"
+              required
+            /><br />
+            <input
+              type="tel"
+              id="phone"
+              placeholder="Phone Number"
+              required
+              name="Phone"
+            /><br />
+            <div class="button-group">
+              <button class="back">
+                <i class="fa-solid fa-arrow-left"></i> Back
+              </button>
+              <button type="submit" class="continue">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div
+      class="loader"
+      style="display: none; text-align: center; padding: 40px"
+    >
+      <div class="load-body">
+        <div>
+          <div class="loading-head">
+            Our coaches are analyzing your performance data and preparing your
+            personalized football training plan. Get ready to level up your
+            game!
+          </div>
+          <span class="loader1"></span>
+          <div class="load-cont">
+            Did you know? <span>96%</span> of study participants said thier skin
+            looked and felt <span>radiant, rejuvenated</span> and
+            <span>refreshed</span> after using luminence 30days
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="thank-you-message" style="display: none">
+      <div class="result-head">Your <i>results</i> are in!</div>
+      <!-- <div class="disclaimer-text"> The statements in this message have not been evaluated bt the FDA. Th information provided here is not intended to diagnose, treat, cure or prevent any disease and should not be constructed as medical advice result may not be typical </div> -->
+      <div id="recommendation-output"></div>
+    </div>
+    <div class="buttons">
+      <button class="button" id="prev-btn" disabled>
+        <i class="fa-solid fa-arrow-left"></i> Previous
+      </button>
+      <button class="button" id="next-btn" disabled>
+        Next <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+    <script>
+      const totalQuestions = 10,
+        questionsPerStep = 4;
+      let currentQuestion = 1;
+      const multiSelectQuestions = [3],
+        progressLineFill = document.getElementById("progress-line-fill"),
+        nextBtn = document.getElementById("next-btn"),
+        prevBtn = document.getElementById("prev-btn"),
+        stepCounter = document.getElementById("step-counter"),
+        dots = [...document.querySelectorAll(".dot")],
+        questions = [...document.querySelectorAll(".question")];
+      function showQuestion(e) {
+        questions.forEach((e, t) => {
+          e.classList.remove("active"), (e.style.display = "none");
+        });
+        const t = questions[e - 1];
+        (t.style.display = "flex"),
+          setTimeout(() => t.classList.add("active"), 10);
+        const n = t.querySelector(".continue"),
+          o = t.querySelector(".back");
+        n &&
+          o &&
+          ((n.onclick = (e) => {
+            if (10 === currentQuestion) {
+              e.preventDefault();
+              const t = document.querySelector("#name")?.value?.trim(),
+                n = document.querySelector("#email")?.value?.trim(),
+                o = document.querySelector("#phone")?.value?.trim();
+
+              // Phone number validation
+              const phoneRegex = /^\+\d{10,15}$/;
+
+              if (!t || !n || !o) {
+                alert("Please fill in all required fields.");
+                return;
+              }
+
+              if (!phoneRegex.test(o)) {
+                alert(
+                  "Please enter a valid phone number starting with '+' and 10 to 15 digits."
+                );
+                return;
+              }
+
+              return t && n && o
+                ? ((() => {
+                    const formData = new FormData();
+                    formData.append("Name", t);
+                    formData.append("Email", n);
+                    formData.append("Phone", o);
+                    logAllAnswersToConsole(formData);
+
+                    fetch(
+                      "https://script.google.com/macros/s/AKfycbz3200PqKJdXliTTI2UF9hlH05rlI5lkf7bMJCEQ8aZoOqWvluprH1ThuG782bK4O_f/exec",
+                      {
+                        method: "POST",
+                        body: formData,
+                      }
+                    )
+                      .then((response) => response.text())
+                      .then((result) => console.log("✅ Google Sheet:", result))
+                      .catch((err) =>
+                        console.error("❌ Google Sheet Error:", err)
+                      );
+                  })(),
+                  fetch("https://futbol-max-klaviyo.onrender.com/subscribe", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email: n, phone: o }),
+                  })
+                    .then((e) => {
+                      if (!e.ok) throw new Error("Network response was not ok");
+                      return e.json();
+                    })
+                    .then((e) => {
+                      console.log("Successfully sent to API:", e);
+                    })
+                    .catch((e) => {
+                      console.error("Error sending data to API:", e);
+                    }),
+                  logAnswers(),
+                  (document.querySelector(".quiz-container").style.display =
+                    "none"),
+                  (document.querySelector(".loader").style.display = "block"),
+                  void setTimeout(() => {
+                    (document.querySelector(".loader").style.display = "none"),
+                      (document.querySelector(
+                        ".thank-you-message"
+                      ).style.display = "block");
+                  }, 3e3))
+                : void alert("Please fill in all required fields.");
+            }
+            currentQuestion++, showQuestion(currentQuestion), updateProgress();
+          }),
+          (o.onclick = () => {
+            currentQuestion--, showQuestion(currentQuestion), updateProgress();
+          })),
+          updateButtons();
+      }
+      function updateButtons() {
+        const e =
+          questions[currentQuestion - 1].querySelectorAll(".option.selected");
+        multiSelectQuestions.includes(currentQuestion);
+        (prevBtn.disabled = 1 === currentQuestion),
+          (nextBtn.disabled = 0 === e.length),
+          [4, 8, 10].includes(currentQuestion)
+            ? ((nextBtn.style.display = "none"),
+              (prevBtn.style.display = "none"))
+            : 1 === currentQuestion
+            ? ((prevBtn.style.display = "none"),
+              (nextBtn.style.margin = "0 auto"))
+            : ((nextBtn.style.display = "inline-block"),
+              (prevBtn.style.display = "inline-block"),
+              (nextBtn.style.margin = "0 "));
+      }
+      function updateProgress() {
+        const e = 100 / 3,
+          t = Math.floor((currentQuestion - 1) / questionsPerStep),
+          n = ((currentQuestion - 1) % questionsPerStep) + 1;
+        let o;
+        if (n === questionsPerStep || currentQuestion === totalQuestions)
+          o = (t + 1) * e;
+        else {
+          o = t * e + ((n - 1) / (questionsPerStep - 1)) * e;
+        }
+        (o = Math.min(o, 100)),
+          (progressLineFill.style.width = o + "%"),
+          (stepCounter.textContent = `${t + 1}/${dots.length}`),
+          dots.forEach((e, n) => {
+            e.classList.toggle("active", n <= t);
+          });
+      }
+      function logAnswers() {
+        const e = { "Shot Power": "A", Speed: "B", Stamina: "C", Skill: "D" },
+          t = {
+            Skill:
+              "https://img.icons8.com/external-wanicon-lineal-wanicon/64/external-soccer-boot-football-and-soccer-wanicon-lineal-wanicon.png",
+            Stamina: "https://img.icons8.com/ios/50/deadlift.png",
+            Speed: "https://img.icons8.com/ios/50/exercise.png",
+            "Shot Power":
+              "https://img.icons8.com/pulsar-line/48/football-kick.png",
+          },
+          n = {},
+          o = { A: [], B: [], C: [], D: [] };
+        document.querySelectorAll(".option.selected").forEach((t) => {
+          const s = t
+            .closest(".opt")
+            ?.querySelector(".option-text")
+            ?.textContent?.trim();
+          if (s)
+            for (const t in e)
+              if (s.toLowerCase().includes(t.toLowerCase())) {
+                const s = e[t];
+                (n[s] = (n[s] || 0) + 1), o[s].includes(t) || o[s].push(t);
+              }
+        });
+        const s = Object.entries(n).sort((e, t) => t[1] - e[1]),
+          i = s.slice(0, 3);
+        console.log("===== CATEGORY RESULTS ====="),
+          0 === s.length
+            ? console.log("No matching Product selected.")
+            : i.forEach(([e]) => {
+                console.log(`Category: ${getCategoryName(e)}`),
+                  console.log(
+                    `Recommended Product: ${getCategoryProduct(e)}\n`
+                  );
+              });
+        const c = document.querySelector("#message")?.value?.trim();
+        c && console.log("Message:", c);
+        const r = document.querySelector("#name")?.value?.trim(),
+          l = document.querySelector("#email")?.value?.trim(),
+          a = document.querySelector("#phone")?.value?.trim();
+        console.log("===== USER INFORMATION ====="),
+          console.log("Name:", r || "Not provided"),
+          console.log("Email:", l || "Not provided"),
+          console.log("Phone:", a || "Not provided"),
+          console.log("=====================================");
+        const d = document.getElementById("recommendation-output");
+        (d.innerHTML = ""),
+          0 !== i.length
+            ? i.forEach(([e], n) => {
+                const productPrice = getProductPrice(e);
+                const bookPrice = getBookPrice(e);
+                const productLink = getProductLink(e);
+                const bookLink = getBookLink(e);
+
+                // Calculate discount
+                const productDiscount = Math.round(
+                  ((productPrice.old - productPrice.new) / productPrice.old) *
+                    100
+                );
+                const bookDiscount = Math.round(
+                  ((bookPrice.old - bookPrice.new) / bookPrice.old) * 100
+                );
+
+                getCategoryName(e);
+                const s = getCategoryProduct(e),
+                  i = o[e] || [],
+                  c = getCategoryImage(e),
+                  r = getCategoryNote(e),
+                  l = getBookImage(e),
+                  a = getBookName(e),
+                  u =
+                    (getCategoryIcn(e),
+                    i
+                      .map(
+                        (e) =>
+                          `\n      <div class="improve-cont">\n        <img src="${
+                            t[e] || "icons/default.png"
+                          }" alt="${e}" class="concern-icon" width="20px" height="20px" />\n        <span>${e}</span>\n      </div>\n    `
+                      )
+                      .join("")),
+                  p = `${
+                    a === "Book1"
+                      ? ""
+                      : `<div style="margin-top:30px">\n            <div class="recomend" style="margin-bottom:15px" >Recommendation #${
+                          n + 1
+                        }(Book)</div>\n            <div class="ans">\n        <div class="mg-cont">\n          <div class="prod-cont">\n            <div class="cont-1">\n              <div>\n                <div class="ans-head">Helps Improve:</div>\n\n                <div class="improves">\n                 ${u}\n                </div>\n              </div>\n              <div class="none-cont">${r}</div>\n            </div>\n            <div class="cont-2">\n              <div class="cont-img">\n                <img src="${l}" alt="" />\n                <div>\n                  <div class="prod-name2">${a}</div>\n                </div>\n              </div>\n              <div>\n                <div class="prod-name">${a}</div>\n                <div class="line-under"></div><div class="price">
+ ${
+   bookPrice.old === 0
+     ? ""
+     : `<div class="old-price">$${bookPrice.old.toFixed(2)}</div>`
+ }
+  <div class="New-price">$${bookPrice.new.toFixed(2)}</div>
+  ${
+    bookPrice.old === 0
+      ? ""
+      : `<div class="Precent">Save ${bookDiscount}%</div>`
+  }
+ 
+</div>
+<button onclick="window.location.href='${bookLink}'" class="done-btn">
+  Shop now<br />
+ <span>30 Days money back guarantee</span>
+</button>
+
+\n            </div>\n          </div>\n        </div>\n      </div>\n     </div>\n `
+                  }         <div style="margin-top:30px">\n             <div class="recomend" style="margin-bottom:15px" >Recommendation #${
+                    n + 1
+                  } </div>\n            <div class="ans">\n        <div class="mg-cont">\n          <div class="prod-cont">\n            <div class="cont-1">\n              <div>\n                <div class="ans-head">Helps Improve:</div>\n\n                <div class="improves">\n                 ${u}\n                </div>\n              </div>\n              <div class="none-cont">${r}</div>\n            </div>\n            <div class="cont-2">\n              <div class="cont-img">\n                <img src="${c}" alt="" />\n                <div>\n                  <div class="prod-name2">${s}</div>\n                </div>\n              </div>\n              <div>\n                <div class="prod-name">${s}</div>\n                <div class="line-under"></div>\n                <div class="price">
+${
+  productPrice.old === 0
+    ? ""
+    : `<div class="old-price">$${productPrice.old.toFixed(2)}</div>`
+} 
+  <div class="New-price">$${productPrice.new.toFixed(2)}</div>
+                    ${
+                      productPrice.old === 0
+                        ? ""
+                        : `<div class="Precent">Save ${productDiscount}%</div>`
+                    }
+  
+</div>
+<button onclick="window.location.href='${productLink}'" class="done-btn">
+  Shop now<br />
+  <span>30 Days money back guarantee</span>
+</button>
+   </div>\n          </div>\n        </div>\n      </div>\n     </div>\n    `;
+                d.innerHTML += p;
+              })
+            : (d.innerHTML = "<p>No concerns were selected.</p>");
+      }
+      function getCategoryName(e) {
+        return { A: "Skill", B: "Stamina", C: "Speed", D: "Shot Power" }[e];
+      }
+      function getCategoryProduct(e) {
+        return {
+          A: "ladder/cones",
+          B: "Vo2Max",
+          C: "Resistance Pack",
+          D: "Ankle weights",
+        }[e];
+      }
+      function getCategoryImage(e) {
+        return {
+          A: "https://futbol-max.com/cdn/shop/files/THE_ANKLE_WEIGHTS_-_2025-06-09T134127.416.png?v=1749491195&width=823",
+          B: "https://futbol-max.com/cdn/shop/files/THE_VO2MAX.png?v=1745435252&width=533",
+          C: "https://futbol-max.com/cdn/shop/files/THE_ANKLE_WEIGHTS_100.png?v=1747084788&width=823",
+          D: "https://futbol-max.com/cdn/shop/files/1.png?v=1745940360&width=823",
+        }[e];
+      }
+      function getCategoryIcn(e) {
+        return {
+          A: "Designed for footballers who want full-body control activate key muscle groups, boost joint stability, and unlock explosive power from warm-up to match day.",
+          B: "STAMINA UNDER PRESSURE,LUNG CAPACITY,CONTROLLED BREATHING,FASTER RECOVERY",
+          C: "Train heavy play light",
+          D: "EXPLOSIVE: THE ULTIMATE SPEED GUIDE FOR FOOTBALLERS",
+        }[e];
+      }
+      function getCategoryNote(e) {
+        return {
+          A: "Designed for footballers who want full-body control activate key muscle groups, boost joint stability, and unlock explosive power from warm-up to match day.",
+          B: "STAMINA UNDER PRESSURE,LUNG CAPACITY,CONTROLLED BREATHING,FASTER RECOVERY",
+          C: "Train heavy play light",
+          D: "EXPLOSIVE: THE ULTIMATE SPEED GUIDE FOR FOOTBALLERS",
+        }[e];
+      }
+      function getBookName(e) {
+        return {
+          A: "Book1",
+          B: "THE ULTIMATE ENDURANCE GUIDE FOR FOOTBALLERS",
+          C: "EXPLOSIVE: THE ULTIMATE SPEED GUIDE FOR FOOTBALLERS",
+          D: "UNBREAKABLE CONFIDENCE: THE CR7 MINDSET",
+        }[e];
+      }
+
+      function logAllAnswersToConsole(params) {
+        const questionMap = {
+          1: "Position",
+          2: "Best Strength",
+          3: "Improve",
+          5: "Playing Level",
+          6: "Training Frequency",
+          7: "Main Goal",
+          9: "Age",
+          10: "Name",
+          11: "Email",
+          12: "Phone",
+        };
+
+        document.querySelectorAll(".question").forEach((q) => {
+          const index = parseInt(q.dataset.index);
+          const label = questionMap[index];
+          if (!label) return;
+
+          let answer = "";
+
+          const selected = q.querySelectorAll(".option.selected");
+          if (selected.length > 0) {
+            answer = Array.from(selected)
+              .map((opt) => {
+                const optionTextEl =
+                  opt.querySelector(".option-text") ||
+                  opt.closest(".opt")?.querySelector(".option-text");
+
+                return (
+                  optionTextEl?.textContent?.trim() ||
+                  opt.textContent?.trim() ||
+                  ""
+                );
+              })
+              .join(", ");
+          } else {
+            const textarea = q.querySelector("textarea");
+            if (textarea) answer = textarea.value.trim();
+          }
+
+          answer = String(answer || "Not answered");
+          if (params && label && typeof answer === "string") {
+            params.append(label, answer);
+          }
+        });
+      }
+
+      function getBookImage(e) {
+        return {
+          A: "https://futbol-max.com/cdn/shop/files/CopiedeSanstitre_1400x1920px_1300x1920px_1300x2000px_612x792px_1.png?v=1750521359&width=823",
+          B: "https://futbol-max.com/cdn/shop/files/CopiedeSanstitre_1400x1920px_1300x1920px_1300x2000px_612x792px_1.png?v=1750521359&width=823",
+          C: "https://futbol-max.com/cdn/shop/files/CopiedeSanstitre_1400x1920px_1300x1920px_1300x2000px_612x792px.png?v=1740607562&width=823",
+          D: "https://futbol-max.com/cdn/shop/files/Sanstitre_1400x1920px_1300x1920px_1300x2000px_612x792px_1.png?v=1732568721&width=823",
+        }[e];
+      }
+      function getCategoryProduct(e) {
+        return {
+          A: "ladder/cones",
+          B: "Vo2Max",
+          C: "Resistance Pack",
+          D: "Ankle weights",
+        }[e];
+      }
+      function getBookPrice(e) {
+        return {
+          A: { old: 29.99, new: 19.99 },
+          B: { old: 14.0, new: 4.99 },
+          C: { old: 0, new: 9.99 },
+          D: { old: 0, new: 9.99 },
+        }[e];
+      }
+
+      function getProductPrice(e) {
+        return {
+          A: { old: 50.0, new: 19.99 },
+          B: { old: 0, new: 24.99 },
+          C: { old: 110.0, new: 69.99 },
+          D: { old: 45.0, new: 32.0 },
+        }[e];
+      }
+
+      function getBookLink(e) {
+        return {
+          A: "https://yourshop.com/books/book1",
+          B: "https://futbol-max.com/products/the-ultimate-endurance-guide-for-footballers",
+          C: "https://futbol-max.com/products/the-ultimate-speed-guide-for-footballers",
+          D: "https://futbol-max.com/products/unbreakable-building-self-confidence-for-football-success",
+        }[e];
+      }
+
+      function getProductLink(e) {
+        return {
+          A: "https://yourshop.com/products/ladder-cones",
+          B: "https://futbol-max.com/products/breathing-exercise-for-lungs-portable-breath-fitness-exerciser-device-endurance-workout-with-adjustable-resistances-to",
+          C: "https://futbol-max.com/products/resistance-pro-pack%E2%84%A2",
+          D: "https://futbol-max.com/products/1-pair-wearable-wrist-ankle-weights-1lb-silicone-bracelet-wrist-bangles-workout-resistance-weights-for-weight-training",
+        }[e];
+      }
+
+      document.querySelectorAll(".option").forEach((e) => {
+        e.addEventListener("click", () => {
+          const t = e.closest(".question"),
+            n = parseInt(t.dataset.index),
+            o = t.querySelectorAll(".option");
+          if (multiSelectQuestions.includes(n)) {
+            e.classList.toggle("selected");
+            const o = t.querySelectorAll(".option.selected");
+            return o.length > 4
+              ? void e.classList.remove("selected")
+              : (t.querySelectorAll(".option").forEach((e) => {
+                  e.classList.toggle(
+                    "disabled",
+                    o.length >= 4 && !e.classList.contains("selected")
+                  );
+                }),
+                updateButtons(),
+                4 === o.length &&
+                  setTimeout(() => {
+                    currentQuestion < totalQuestions &&
+                      (currentQuestion++,
+                      showQuestion(currentQuestion),
+                      updateProgress(),
+                      updateButtons());
+                  }, 300),
+                void (
+                  9 === n &&
+                  4 === o.length &&
+                  setTimeout(() => {
+                    currentQuestion < totalQuestions &&
+                      (currentQuestion++,
+                      showQuestion(currentQuestion),
+                      updateProgress(),
+                      updateButtons());
+                  }, 300)
+                ));
+          }
+          o.forEach((e) => e.classList.remove("selected")),
+            e.classList.add("selected"),
+            updateButtons(),
+            updateButtons(),
+            [4, 9, 11, 12].includes(currentQuestion + 1) ||
+              setTimeout(() => {
+                currentQuestion < totalQuestions &&
+                  (currentQuestion++,
+                  showQuestion(currentQuestion),
+                  updateProgress(),
+                  updateButtons());
+              }, 250);
+        });
+      }),
+        nextBtn.addEventListener("click", () => {
+          currentQuestion < totalQuestions &&
+            (currentQuestion++,
+            showQuestion(currentQuestion),
+            updateProgress(),
+            updateButtons());
+        }),
+        prevBtn.addEventListener("click", () => {
+          currentQuestion > 1 &&
+            (currentQuestion--,
+            showQuestion(currentQuestion),
+            updateProgress(),
+            updateButtons());
+        }),
+        showQuestion(currentQuestion),
+        updateProgress(),
+        updateButtons();
+    </script>
+  </body>
+</html>
