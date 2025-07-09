@@ -43,10 +43,10 @@
         font-weight: 400;
         color: #787878;
         width: 100%;
-        line-height: 1.5; /* Corrected */
+        line-height: 1.5;
         text-align: center;
-        word-wrap: break-word; /* Added */
-        overflow-wrap: break-word; /* For better compatibility */
+        word-wrap: break-word;
+        overflow-wrap: break-word;
         hyphens: auto;
       }
 
@@ -143,14 +143,6 @@
         flex-wrap: wrap;
         margin-top: 20px;
       }
-      .options3 {
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-        margin-top: 20px;
-        width: 70%;
-        flex-wrap: wrap !important;
-      }
       .option {
         display: flex;
         align-items: center;
@@ -188,33 +180,17 @@
 
       .secondOption:hover {
         box-shadow: 0px 2px 17px -2px rgba(0, 0, 0, 0);
-        transform: translateY(-10px); /* Looks like margin-top increased */
+        transform: translateY(-10px);
       }
       .option.secondOption.selected {
         box-shadow: 0px 2px 17px -2px rgba(0, 0, 0, 0) !important;
         transform: translateY(-7px);
       }
       .option.secondOption.selected .img-cont {
-        box-shadow: 0px 2px 17px -2px rgba(0, 0, 0, 0.21);
+        box-shadow: 0px 2px 17px -2px #00802d4c;
         transform: translateY(-2px);
       }
-      .secondOption2 {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: none;
-        border-radius: 5px;
-        padding: 0;
-        position: relative;
-        transition: transform 0.3s ease;
-      }
-      .secondOption2:hover .option-text {
-        border-radius: 2px;
-      }
 
-      .secondOption2:hover {
-        transform: translateY(-10px); /* Looks like margin-top increased */
-      }
       .secondOption {
         display: flex;
         align-items: center;
@@ -251,7 +227,7 @@
         border-radius: 2px;
       }
       .secondOption:hover .img-cont {
-        box-shadow: 0px 2px 17px -2px rgba(0, 0, 0, 0.21);
+        box-shadow: 0px 2px 17px -2px #00802d4c;
       }
       .button {
         background-color: white !important;
@@ -619,61 +595,7 @@
           font-weight: bold;
         }
       }
-      .card2 {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-top: 30px;
-      }
-      .carousel-item2 {
-        background-color: #fdcecd24;
-        padding: 15px;
-        width: 300px;
-        border-radius: 20px;
-      }
-      .carousel-images2 {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        .carousel-image-item2 {
-          flex: 1;
-          img {
-            width: 100%;
-            height: 140px;
-            object-fit: cover;
-            border-radius: 20px;
-          }
-        }
-      }
-      .visible {
-        font-family: "Roboto", sans-serif;
-        text-transform: uppercase;
-        font-weight: light;
-        font-size: 13px;
-        margin-top: 15px;
-        letter-spacing: 1px;
-      }
-      .days2 {
-        font-family: "Roboto", sans-serif;
-        font-weight: light;
-        font-size: 13px;
-        margin-top: 5px;
-      }
-      .carousel-head {
-        font-family: "TWKLausanne", sans-serif !important;
-        font-size: 17px;
-        margin: 10px 0 15px 0;
-      }
-      .carousel-contents {
-        font-family: "TWKLausanne", sans-serif !important;
-        font-size: 14px;
-        margin: 15px 0;
-      }
-      .carousel-name {
-        font-family: "TWKLausanne", sans-serif !important;
-        font-size: 13px;
-      }
+
       .co-head {
         font-size: 20px;
         font-family: "Roboto", sans-serif;
@@ -781,9 +703,6 @@
           .option-cont {
             width: 90%;
           }
-          .options3 {
-            width: 100% !important;
-          }
         }
 
         .options {
@@ -838,7 +757,6 @@
         </div>
       </div>
       <div id="questions-wrapper">
-        <!-- Q1 -->
         <div class="question active" data-index="1">
           <p class="question-head">What Position do you play</p>
           <p class="question-content">
@@ -849,9 +767,7 @@
               <div class="option secondOption">
                 <div class="img-cont">
                   <img
-                    src="https://img.icons8.com/external-icongeek26-outline-icongeek26/64/external-goal-post-football-icongeek26-outline-icongeek26.png"
-                    alt=""
-                  />
+                  alt=""src=https://img.icons8.com/external-icongeek26-outline-icongeek26/64/external-goal-post-football-icongeek26-outline-icongeek26.png>
                 </div>
                 <div class="option-text">GoalKeeper</div>
               </div>
@@ -859,10 +775,7 @@
             <div class="opt">
               <div class="option secondOption">
                 <div class="img-cont">
-                  <img
-                    src="https://img.icons8.com/comic/100/football.png"
-                    alt=""
-                  />
+                  <img alt=""src=https://img.icons8.com/comic/100/football.png>
                 </div>
                 <div class="option-text">Defender</div>
               </div>
@@ -871,9 +784,7 @@
               <div class="option secondOption">
                 <div class="img-cont">
                   <img
-                    src="https://img.icons8.com/external-kosonicon-outline-kosonicon/64/external-soccer-field-soccer-and-football-match-kosonicon-outline-kosonicon.png"
-                    alt=""
-                  />
+                  alt=""src=https://img.icons8.com/external-kosonicon-outline-kosonicon/64/external-soccer-field-soccer-and-football-match-kosonicon-outline-kosonicon.png>
                 </div>
                 <div class="option-text">MildFielder</div>
               </div>
@@ -882,16 +793,13 @@
               <div class="option secondOption">
                 <div class="img-cont">
                   <img
-                    src="https://img.icons8.com/carbon-copy/100/football2.png"
-                    alt=""
-                  />
+                  alt=""src=https://img.icons8.com/carbon-copy/100/football2.png>
                 </div>
                 <div class="option-text">Striker</div>
               </div>
             </div>
           </div>
         </div>
-        <!-- Q2 -->
         <div class="question" data-index="2">
           <p class="question-head">What is your best strength</p>
           <p class="question-content">
@@ -916,7 +824,6 @@
             </div>
           </div>
         </div>
-        <!-- Q3 -->
         <div class="question" data-index="3">
           <p class="question-head">What would you like to improve</p>
           <p class="question-content">
@@ -927,9 +834,7 @@
               <div class="option secondOption">
                 <div class="img-cont">
                   <img
-                    src="https://img.icons8.com/pulsar-line/48/football-kick.png"
-                    alt=""
-                  />
+                  alt=""src=https://img.icons8.com/pulsar-line/48/football-kick.png>
                 </div>
                 <div class="option-text">Shot Power</div>
               </div>
@@ -937,10 +842,7 @@
             <div class="opt">
               <div class="option secondOption">
                 <div class="img-cont">
-                  <img
-                    src="https://img.icons8.com/ios/50/exercise.png"
-                    alt=""
-                  />
+                  <img alt=""src=https://img.icons8.com/ios/50/exercise.png>
                 </div>
                 <div class="option-text">Speed</div>
               </div>
@@ -948,10 +850,7 @@
             <div class="opt">
               <div class="option secondOption">
                 <div class="img-cont">
-                  <img
-                    src="https://img.icons8.com/ios/50/deadlift.png"
-                    alt=""
-                  />
+                  <img alt=""src=https://img.icons8.com/ios/50/deadlift.png>
                 </div>
                 <div class="option-text">Stamina</div>
               </div>
@@ -960,16 +859,13 @@
               <div class="option secondOption">
                 <div class="img-cont">
                   <img
-                    src="https://img.icons8.com/external-wanicon-lineal-wanicon/64/external-soccer-boot-football-and-soccer-wanicon-lineal-wanicon.png"
-                    alt=""
-                  />
+                  alt=""src=https://img.icons8.com/external-wanicon-lineal-wanicon/64/external-soccer-boot-football-and-soccer-wanicon-lineal-wanicon.png>
                 </div>
                 <div class="option-text">Skill</div>
               </div>
             </div>
           </div>
         </div>
-        <!-- Q4: Message -->
         <div class="question" data-index="4">
           <div class="message-screen">
             <div class="msg">
@@ -987,7 +883,6 @@
             </button>
           </div>
         </div>
-        <!-- Q5 -->
         <div class="question" data-index="5">
           <p class="question-head">What is your current playing level?</p>
           <p class="question-content">
@@ -1008,7 +903,6 @@
             </div>
           </div>
         </div>
-        <!-- Q6 -->
         <div class="question" data-index="6">
           <p class="question-head">How many times a week do you train?</p>
           <p class="question-content">
@@ -1030,7 +924,6 @@
             </div>
           </div>
         </div>
-        <!-- Q7 -->
         <div class="question" data-index="7">
           <p class="question-head2">What is your main goal in football?</p>
           <p class="question-content">
@@ -1055,15 +948,13 @@
             </div>
           </div>
         </div>
-        <!-- Q8: Message -->
         <div class="question" data-index="8">
           <div class="message-screen">
             <div class="msg">
               <div class="abt">About FutBolMax</div>
               <div class="abtText">
-                <span>Try it Risk-Free</span><br />
-                <span>30 Days</span> Money Back Guarantee<br />
-                & Free Return
+                <span>Try it Risk-Free</span><br /><span>30 Days</span> Money
+                Back Guarantee<br />& Free Return
               </div>
             </div>
           </div>
@@ -1074,7 +965,6 @@
             </button>
           </div>
         </div>
-        <!-- Q9 -->
         <div class="question" data-index="9">
           <p class="question-head2">How old are you?</p>
           <p class="question-content">
@@ -1101,39 +991,35 @@
           </div>
         </div>
         <form id="myForm">
-          <!-- Q10 -->
           <div class="question" data-index="10">
             <p class="question-head">Where can we send your results?</p>
             <p class="question-content">
               Enter your name and email to receive your personalized routine.
             </p>
             <input
-              type="text"
               id="name"
-              style="margin-top: 20px"
               placeholder="First Name"
-              name="your-name"
               required
-            /><br />
-            <input
-              type="email"
+              name="your-name"
+              style="margin-top: 20px"
+            /><br /><input
               id="email"
               placeholder="Email Address"
-              email="your-email"
               required
-            /><br />
-            <input
-              type="tel"
+              type="email"
+              email="your-email"
+            /><br /><input
               id="phone"
               placeholder="Phone Number"
               required
               name="Phone"
+              type="tel"
             /><br />
             <div class="button-group">
               <button class="back">
                 <i class="fa-solid fa-arrow-left"></i> Back
               </button>
-              <button type="submit" class="continue">Submit</button>
+              <button class="continue" type="submit">Submit</button>
             </div>
           </div>
         </form>
@@ -1151,24 +1037,18 @@
             game!
           </div>
           <span class="loader1"></span>
-          <!-- <div class="load-cont">
-            Did you know? <span>96%</span> of study participants said thier skin
-            looked and felt <span>radiant, rejuvenated</span> and
-            <span>refreshed</span> after using luminence 30days
-          </div> -->
         </div>
       </div>
     </div>
     <div class="thank-you-message" style="display: none">
       <div class="result-head">Your <i>results</i> are in!</div>
-      <!-- <div class="disclaimer-text"> The statements in this message have not been evaluated bt the FDA. Th information provided here is not intended to diagnose, treat, cure or prevent any disease and should not be constructed as medical advice result may not be typical </div> -->
       <div id="recommendation-output"></div>
     </div>
     <div class="buttons">
-      <button class="button" id="prev-btn" disabled>
+      <button class="button" disabled id="prev-btn">
         <i class="fa-solid fa-arrow-left"></i> Previous
       </button>
-      <button class="button" id="next-btn" disabled>
+      <button class="button" disabled id="next-btn">
         Next <i class="fa-solid fa-arrow-right"></i>
       </button>
     </div>
@@ -1176,7 +1056,7 @@
       const totalQuestions = 10,
         questionsPerStep = 4;
       let currentQuestion = 1;
-      const multiSelectQuestions = [3],
+      const multiSelectQuestions = [],
         progressLineFill = document.getElementById("progress-line-fill"),
         nextBtn = document.getElementById("next-btn"),
         prevBtn = document.getElementById("prev-btn"),
@@ -1457,23 +1337,23 @@ ${
         return {
           A: "Designed for footballers who want full-body control activate key muscle groups, boost joint stability, and unlock explosive power from warm-up to match day.",
           B: "STAMINA UNDER PRESSURE,LUNG CAPACITY,CONTROLLED BREATHING,FASTER RECOVERY",
-          C: "Train heavy play light",
-          D: "EXPLOSIVE: THE ULTIMATE SPEED GUIDE FOR FOOTBALLERS",
+          C: "EXPLOSIVE: THE ULTIMATE SPEED GUIDE FOR FOOTBALLERS",
+          D: "Train heavy play light",
         }[e];
       }
       function getCategoryNote(e) {
         return {
           A: "Designed for footballers who want full-body control activate key muscle groups, boost joint stability, and unlock explosive power from warm-up to match day.",
           B: "STAMINA UNDER PRESSURE,LUNG CAPACITY,CONTROLLED BREATHING,FASTER RECOVERY",
-          C: "Train heavy play light",
-          D: "EXPLOSIVE: THE ULTIMATE SPEED GUIDE FOR FOOTBALLERS",
+          C: "EXPLOSIVE: THE ULTIMATE SPEED GUIDE FOR FOOTBALLERS",
+          D: "Train heavy play light",
         }[e];
       }
       function getBookName(e) {
         return {
           A: "Book1",
-          B: "THE ULTIMATE ENDURANCE GUIDE FOR FOOTBALLERS",
-          C: "EXPLOSIVE: THE ULTIMATE SPEED GUIDE FOR FOOTBALLERS",
+          B: "EXPLOSIVE: THE ULTIMATE SPEED GUIDE FOR FOOTBALLERS",
+          C: "THE ULTIMATE ENDURANCE GUIDE FOR FOOTBALLERS",
           D: "UNBREAKABLE CONFIDENCE: THE CR7 MINDSET",
         }[e];
       }
@@ -1529,8 +1409,8 @@ ${
       function getBookImage(e) {
         return {
           A: "https://futbol-max.com/cdn/shop/files/CopiedeSanstitre_1400x1920px_1300x1920px_1300x2000px_612x792px_1.png?v=1750521359&width=823",
-          B: "https://futbol-max.com/cdn/shop/files/CopiedeSanstitre_1400x1920px_1300x1920px_1300x2000px_612x792px_1.png?v=1750521359&width=823",
-          C: "https://futbol-max.com/cdn/shop/files/CopiedeSanstitre_1400x1920px_1300x1920px_1300x2000px_612x792px.png?v=1740607562&width=823",
+          B: "https://futbol-max.com/cdn/shop/files/CopiedeSanstitre_1400x1920px_1300x1920px_1300x2000px_612x792px.png?v=1740607562&width=823",
+          C: "https://futbol-max.com/cdn/shop/files/CopiedeSanstitre_1400x1920px_1300x1920px_1300x2000px_612x792px_1.png?v=1750521359&width=823",
           D: "https://futbol-max.com/cdn/shop/files/Sanstitre_1400x1920px_1300x1920px_1300x2000px_612x792px_1.png?v=1732568721&width=823",
         }[e];
       }
@@ -1545,8 +1425,8 @@ ${
       function getBookPrice(e) {
         return {
           A: { old: 29.99, new: 19.99 },
-          B: { old: 14.0, new: 4.99 },
-          C: { old: 0, new: 9.99 },
+          B: { old: 0, new: 9.99 },
+          C: { old: 14.0, new: 4.99 },
           D: { old: 0, new: 9.99 },
         }[e];
       }
@@ -1563,8 +1443,8 @@ ${
       function getBookLink(e) {
         return {
           A: "https://yourshop.com/books/book1",
-          B: "https://futbol-max.com/products/the-ultimate-endurance-guide-for-footballers",
-          C: "https://futbol-max.com/products/the-ultimate-speed-guide-for-footballers",
+          B: "https://futbol-max.com/products/the-ultimate-speed-guide-for-footballers",
+          C: "https://futbol-max.com/products/the-ultimate-endurance-guide-for-footballers",
           D: "https://futbol-max.com/products/unbreakable-building-self-confidence-for-football-success",
         }[e];
       }
@@ -1577,65 +1457,37 @@ ${
           D: "https://futbol-max.com/products/1-pair-wearable-wrist-ankle-weights-1lb-silicone-bracelet-wrist-bangles-workout-resistance-weights-for-weight-training",
         }[e];
       }
-
       document.querySelectorAll(".option").forEach((e) => {
         e.addEventListener("click", () => {
-          const t = e.closest(".question"),
-            n = parseInt(t.dataset.index),
-            o = t.querySelectorAll(".option");
-          if (multiSelectQuestions.includes(n)) {
-            e.classList.toggle("selected");
-            const o = t.querySelectorAll(".option.selected");
-            return o.length > 4
-              ? void e.classList.remove("selected")
-              : (t.querySelectorAll(".option").forEach((e) => {
-                  e.classList.toggle(
-                    "disabled",
-                    o.length >= 4 && !e.classList.contains("selected")
-                  );
-                }),
-                updateButtons(),
-                4 === o.length &&
-                  setTimeout(() => {
-                    currentQuestion < totalQuestions &&
-                      (currentQuestion++,
-                      showQuestion(currentQuestion),
-                      updateProgress(),
-                      updateButtons());
-                  }, 300),
-                void (
-                  9 === n &&
-                  4 === o.length &&
-                  setTimeout(() => {
-                    currentQuestion < totalQuestions &&
-                      (currentQuestion++,
-                      showQuestion(currentQuestion),
-                      updateProgress(),
-                      updateButtons());
-                  }, 300)
-                ));
-          }
-          o.forEach((e) => e.classList.remove("selected")),
-            e.classList.add("selected"),
-            updateButtons(),
-            updateButtons(),
-            [4, 9, 11, 12].includes(currentQuestion + 1) ||
-              setTimeout(() => {
-                currentQuestion < totalQuestions &&
-                  (currentQuestion++,
-                  showQuestion(currentQuestion),
-                  updateProgress(),
-                  updateButtons());
-              }, 250);
+          const t = e.closest(".question");
+          const n = parseInt(t.dataset.index);
+          const o = t.querySelectorAll(".option");
+
+          // Remove all previously selected options
+          o.forEach((opt) => opt.classList.remove("selected"));
+          e.classList.add("selected");
+
+          updateButtons();
+
+          // Auto-advance to the next question after short delay
+          setTimeout(() => {
+            if (currentQuestion < totalQuestions) {
+              currentQuestion++;
+              showQuestion(currentQuestion);
+              updateProgress();
+              updateButtons();
+            }
+          }, 300);
         });
+      });
+
+      nextBtn.addEventListener("click", () => {
+        currentQuestion < totalQuestions &&
+          (currentQuestion++,
+          showQuestion(currentQuestion),
+          updateProgress(),
+          updateButtons());
       }),
-        nextBtn.addEventListener("click", () => {
-          currentQuestion < totalQuestions &&
-            (currentQuestion++,
-            showQuestion(currentQuestion),
-            updateProgress(),
-            updateButtons());
-        }),
         prevBtn.addEventListener("click", () => {
           currentQuestion > 1 &&
             (currentQuestion--,
