@@ -1056,7 +1056,7 @@
       const totalQuestions = 10,
         questionsPerStep = 4;
       let currentQuestion = 1;
-      const multiSelectQuestions = [],
+      const multiSelectQuestions = [3],
         progressLineFill = document.getElementById("progress-line-fill"),
         nextBtn = document.getElementById("next-btn"),
         prevBtn = document.getElementById("prev-btn"),
@@ -1185,7 +1185,7 @@
           });
       }
       function logAnswers() {
-        const e = { "Shot Power": "A", Speed: "B", Stamina: "C", Skill: "D" },
+        const e = { "Shot Power": "D", Speed: "C", Stamina: "B", Skill: "A" },
           t = {
             Skill:
               "https://img.icons8.com/external-wanicon-lineal-wanicon/64/external-soccer-boot-football-and-soccer-wanicon-lineal-wanicon.png",
@@ -1209,7 +1209,7 @@
               }
         });
         const s = Object.entries(n).sort((e, t) => t[1] - e[1]),
-          i = s.slice(0, 3);
+          i = s;
         console.log("===== CATEGORY RESULTS ====="),
           0 === s.length
             ? console.log("No matching Product selected.")
@@ -1315,7 +1315,7 @@ ${
             : (d.innerHTML = "<p>No concerns were selected.</p>");
       }
       function getCategoryName(e) {
-        return { A: "Skill", B: "Stamina", C: "Speed", D: "Shot Power" }[e];
+        return { A: "Shot Power", B: "Speed", C: "Stamina", D: "Skill" }[e];
       }
       function getCategoryProduct(e) {
         return {
@@ -1352,8 +1352,8 @@ ${
       function getBookName(e) {
         return {
           A: "Book1",
-          B: "EXPLOSIVE: THE ULTIMATE SPEED GUIDE FOR FOOTBALLERS",
-          C: "THE ULTIMATE ENDURANCE GUIDE FOR FOOTBALLERS",
+          B: "THE ULTIMATE ENDURANCE GUIDE FOR FOOTBALLERS",
+          C: "EXPLOSIVE: THE ULTIMATE SPEED GUIDE FOR FOOTBALLERS",
           D: "UNBREAKABLE CONFIDENCE: THE CR7 MINDSET",
         }[e];
       }
@@ -1409,8 +1409,8 @@ ${
       function getBookImage(e) {
         return {
           A: "https://futbol-max.com/cdn/shop/files/CopiedeSanstitre_1400x1920px_1300x1920px_1300x2000px_612x792px_1.png?v=1750521359&width=823",
-          B: "https://futbol-max.com/cdn/shop/files/CopiedeSanstitre_1400x1920px_1300x1920px_1300x2000px_612x792px.png?v=1740607562&width=823",
-          C: "https://futbol-max.com/cdn/shop/files/CopiedeSanstitre_1400x1920px_1300x1920px_1300x2000px_612x792px_1.png?v=1750521359&width=823",
+          B: "https://futbol-max.com/cdn/shop/files/CopiedeSanstitre_1400x1920px_1300x1920px_1300x2000px_612x792px_1.png?v=1750521359&width=823",
+          C: "https://futbol-max.com/cdn/shop/files/CopiedeSanstitre_1400x1920px_1300x1920px_1300x2000px_612x792px.png?v=1740607562&width=823",
           D: "https://futbol-max.com/cdn/shop/files/Sanstitre_1400x1920px_1300x1920px_1300x2000px_612x792px_1.png?v=1732568721&width=823",
         }[e];
       }
@@ -1425,8 +1425,8 @@ ${
       function getBookPrice(e) {
         return {
           A: { old: 29.99, new: 19.99 },
-          B: { old: 0, new: 9.99 },
-          C: { old: 14.0, new: 4.99 },
+          B: { old: 14.0, new: 4.99 },
+          C: { old: 0, new: 9.99 },
           D: { old: 0, new: 9.99 },
         }[e];
       }
@@ -1443,8 +1443,8 @@ ${
       function getBookLink(e) {
         return {
           A: "https://yourshop.com/books/book1",
-          B: "https://futbol-max.com/products/the-ultimate-speed-guide-for-footballers",
-          C: "https://futbol-max.com/products/the-ultimate-endurance-guide-for-footballers",
+          B: "https://futbol-max.com/products/the-ultimate-endurance-guide-for-footballers",
+          C: "https://futbol-max.com/products/the-ultimate-speed-guide-for-footballers",
           D: "https://futbol-max.com/products/unbreakable-building-self-confidence-for-football-success",
         }[e];
       }
@@ -1457,37 +1457,65 @@ ${
           D: "https://futbol-max.com/products/1-pair-wearable-wrist-ankle-weights-1lb-silicone-bracelet-wrist-bangles-workout-resistance-weights-for-weight-training",
         }[e];
       }
+
       document.querySelectorAll(".option").forEach((e) => {
         e.addEventListener("click", () => {
-          const t = e.closest(".question");
-          const n = parseInt(t.dataset.index);
-          const o = t.querySelectorAll(".option");
-
-          // Remove all previously selected options
-          o.forEach((opt) => opt.classList.remove("selected"));
-          e.classList.add("selected");
-
-          updateButtons();
-
-          // Auto-advance to the next question after short delay
-          setTimeout(() => {
-            if (currentQuestion < totalQuestions) {
-              currentQuestion++;
-              showQuestion(currentQuestion);
-              updateProgress();
-              updateButtons();
-            }
-          }, 300);
+          const t = e.closest(".question"),
+            n = parseInt(t.dataset.index),
+            o = t.querySelectorAll(".option");
+          if (multiSelectQuestions.includes(n)) {
+            e.classList.toggle("selected");
+            const o = t.querySelectorAll(".option.selected");
+            return o.length > 4
+              ? void e.classList.remove("selected")
+              : (t.querySelectorAll(".option").forEach((e) => {
+                  e.classList.toggle(
+                    "disabled",
+                    o.length >= 4 && !e.classList.contains("selected")
+                  );
+                }),
+                updateButtons(),
+                4 === o.length &&
+                  setTimeout(() => {
+                    currentQuestion < totalQuestions &&
+                      (currentQuestion++,
+                      showQuestion(currentQuestion),
+                      updateProgress(),
+                      updateButtons());
+                  }, 300),
+                void (
+                  9 === n &&
+                  4 === o.length &&
+                  setTimeout(() => {
+                    currentQuestion < totalQuestions &&
+                      (currentQuestion++,
+                      showQuestion(currentQuestion),
+                      updateProgress(),
+                      updateButtons());
+                  }, 300)
+                ));
+          }
+          o.forEach((e) => e.classList.remove("selected")),
+            e.classList.add("selected"),
+            updateButtons(),
+            updateButtons(),
+            [4, 9, 11, 12].includes(currentQuestion + 1) ||
+              setTimeout(() => {
+                currentQuestion < totalQuestions &&
+                  (currentQuestion++,
+                  showQuestion(currentQuestion),
+                  updateProgress(),
+                  updateButtons());
+              }, 250);
         });
-      });
-
-      nextBtn.addEventListener("click", () => {
-        currentQuestion < totalQuestions &&
-          (currentQuestion++,
-          showQuestion(currentQuestion),
-          updateProgress(),
-          updateButtons());
       }),
+        nextBtn.addEventListener("click", () => {
+          currentQuestion < totalQuestions &&
+            (currentQuestion++,
+            showQuestion(currentQuestion),
+            updateProgress(),
+            updateButtons());
+        }),
         prevBtn.addEventListener("click", () => {
           currentQuestion > 1 &&
             (currentQuestion--,
